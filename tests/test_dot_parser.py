@@ -1,5 +1,3 @@
-import pytest
-
 from src.parser import parse_dot_to_digraph
 
 
