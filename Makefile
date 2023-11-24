@@ -7,7 +7,7 @@ lint:
 	mypy src/ tests/
 
 test:
-	export PYTHONPATH=./src; pytest --cov=src --cov-report=term-missing tests/
+	export PYTHONPATH=./src; pytest --cov=src --no-cov-on-fail --cov-report=term-missing tests/
 
 build-docker:
 	docker build -t $(DOCKER_IMAGE) .
