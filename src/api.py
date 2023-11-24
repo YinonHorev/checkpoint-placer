@@ -1,10 +1,9 @@
 import logging
+from parser import parse_dot_to_digraph
 
 import networkx as nx
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-
-from src.parser import parse_dot_to_digraph
 
 app = FastAPI()
 
