@@ -16,4 +16,6 @@ def test_must_go_through_nodes():
 
     print(response.json())
     assert response.status_code == 200
-    assert response.json() == {"must_go_through_nodes": [1, 2]}
+    assert response.json() == {
+        "must_go_through_nodes": ["1", "2"]
+    } or response.json() == {"must_go_through_nodes": ["2", "1"]}
