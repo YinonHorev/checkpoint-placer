@@ -8,7 +8,7 @@ from pydantic import BaseModel
 app = FastAPI()
 
 # setup logging
-logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 
 class PathAnalysisRequest(BaseModel):
@@ -30,5 +30,5 @@ def process_graph(input: PathAnalysisRequest):
             "must_go_through_nodes": list(nodes)
         }  # We might want in the future to return more parameters
     except Exception as e:
-        logging.error(f"Error processing request: {e}")
+        logger.error(f"Error processing request: {e}")
         raise HTTPException(status_code=500, detail="Internal Server Error")
