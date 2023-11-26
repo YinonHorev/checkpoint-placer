@@ -61,6 +61,7 @@ class ArticulationSequenceComponentsStrategy(PathAnalysisStrategy):
     Implemented based on https://doi.org/10.1016/j.dam.2021.08.026
     """
 
+    # flake8: noqa: C901
     @staticmethod
     def analyse_path(G: nx.DiGraph, e1: str, h: str) -> set[str]:
         """
