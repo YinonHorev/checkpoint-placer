@@ -1,4 +1,4 @@
-DOCKER_IMAGE=temp427/checkpoint-placer:0.1 # tagname should be changed set to commit tag
+DOCKER_IMAGE=temp427/checkpoint-placer:1.0 # tagname should be changed set to commit tag
 
 lint:
 	black src/ tests/
