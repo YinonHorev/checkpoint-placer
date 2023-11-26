@@ -15,7 +15,8 @@ class PathAnalyser:
         self._validate_input(G, e1, h)
         return self.strategy.analyse_path(G, e1, h)
 
-    def _validate_input(self, G: nx.DiGraph, e1: str, h: str) -> None:
+    @staticmethod
+    def _validate_input(G: nx.DiGraph, e1: str, h: str) -> None:
         """Validate the input to the path analysis."""
 
         if not G.has_node(e1):

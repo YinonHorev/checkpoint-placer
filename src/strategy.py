@@ -23,11 +23,11 @@ class NaivePathAnalysisStrategy(PathAnalysisStrategy):
     @staticmethod
     def analyse_path(G: nx.DiGraph, e1: str, h: str) -> set[str]:
         """
-        A naive solution to the path analysis problem.
-        :param G: The graph to search for articulation points.
-        :param e1: The start node.
-        :param h: The end node.
-        :return: A set of moust-go-through nodes.
+        A naive solution to the must-go-through problem.
+        :param G: CFG
+        :param e1: an entry node in the graph
+        :param h: target node in the graph
+        :return: A set of must-go-through nodes.
         """
 
         def dfs(G: nx.DiGraph, start, path, all_paths):
@@ -56,17 +56,28 @@ class NaivePathAnalysisStrategy(PathAnalysisStrategy):
 
 
 class ArticulationSequenceComponentsStrategy(PathAnalysisStrategy):
+    """
+    A solution to the path analysis problem using the Articulation Sequence Components algorithm.
+    Implemented based on https://doi.org/10.1016/j.dam.2021.08.026
+    """
+
     @staticmethod
     def analyse_path(G: nx.DiGraph, e1: str, h: str) -> set[str]:
+        """
+        A solution to the path analysis problem using the Articulation Sequence Components algorithm.
+        :param G: CFG
+        :param e1: an entry node in the graph
+        :param h: target node in the graph
+        :return: A set of must-go-through nodes.
+        """
         # Step 1: Find an arbitrary e1-h path in G
-        P = nx.shortest_path(
+        P = ArticulationSequenceComponentsStrategy._find_shortest_path(
             G, source=e1, target=h
         )  # Using shortest path for simplicity
         P = Path(P, [(u, v) for u, v in zip(P, P[1:])])
         P_reversed = Path(P.Nodes[::-1].copy(), [(v, u) for (u, v) in P.Edges[::-1]])
         # Step 2: Graph Transformation
         G = G.copy()
-        # G.add_edges_from([e for e in P_reversed.Edges if e not in G.edges])  # Adding P^-1
         G.add_edges_from(P_reversed.Edges)  # Adding P^-1
         out = defaultdict(int)
         for u in G.nodes:
@@ -105,3 +116,43 @@ class ArticulationSequenceComponentsStrategy(PathAnalysisStrategy):
             i += 1
         A.add(e1)
         return A
+
+    @staticmethod
+    def _find_shortest_path(G: nx.DiGraph, source: str, target: str):
+        """
+        Find the shortest path in a graph using BFS.
+
+        :param G: A dictionary representing the adjacency list of the graph.
+        :param source: The starting node.
+        :param target: The target node.
+        :return: A list representing the shortest path from start to end.
+        """
+        level = defaultdict(list)
+        predecessors = defaultdict(str)
+        visited = defaultdict(bool)
+
+        level[0].append(source)
+        visited[source] = True
+        i = 0
+        while level[i]:
+            for u in level[i]:
+                for v in G.neighbors(u):
+                    if not visited[v]:
+                        predecessors[v] = u
+                        visited[v] = True
+                        level[i + 1].append(v)
+            i += 1
+
+        if visited[target]:
+            return ArticulationSequenceComponentsStrategy.backtrace(
+                predecessors, source, target
+            )
+
+        return []  # Return an empty list if no path is found
+
+    @staticmethod
+    def backtrace(predecessors: dict[str, str], start: str, end: str):
+        path = [end]
+        while path[-1] != start:
+            path.append(predecessors[path[-1]])
+        return path[::-1]
