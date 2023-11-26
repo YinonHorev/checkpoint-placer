@@ -6,6 +6,7 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 
 from algo import PathAnalyser
+from strategy import ArticulationSequenceComponentsStrategy
 
 app = FastAPI()
 
@@ -20,8 +21,8 @@ class PathAnalysisRequestDTO(BaseModel):
 
 
 def find_must_go_through_nodes(G: nx.DiGraph, e1: str, h: str) -> set[str]:
-    algo = PathAnalyser()
-    return algo(G, e1, h)
+    solver = PathAnalyser(ArticulationSequenceComponentsStrategy)
+    return solver(G, e1, h)
 
 
 @app.post("/server")
