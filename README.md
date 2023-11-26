@@ -15,7 +15,7 @@ Getting Started
 ## Prerequisites
 Docker installed on your system. You can download it from Docker.
 ## Installation
-Pull the Docker Image
+Pull the Docker Image. Take `tagname` as the version you want to use (refer to the Release section).
 ```
 docker pull temp427/checkpoint-placer:tagname
 ```
