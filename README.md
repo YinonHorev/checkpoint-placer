@@ -54,10 +54,16 @@ Response:
 
 Payload:
 
-e1: String - The entry node in the CFG.
-h: String - The target node in the CFG.
-graph: String - The CFG in DOT format.
+`e1`: String - The entry node in the CFG.
+
+`h`: String - The target node in the CFG.
+
+`graph`: String - The CFG in DOT format.
 
 Response:
 
 JSON object containing the set of "must-go-through" nodes.
+
+## Credits
+This project is based on the paper "A simplified algorithm computing all s-t bridges and articulation points" by Massimo Cairo, Shahbaz Khan, Romeo Rizzi, Sebastian Schmidt, Alexandru I. Tomescu, Elia C. Zirondelli.
+The original paper can be found here. https://doi.org/10.1016/j.dam.2021.08.026
