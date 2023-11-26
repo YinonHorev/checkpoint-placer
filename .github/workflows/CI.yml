@@ -30,7 +30,7 @@ jobs:
       - name: Comment coverage
         uses: coroo/pytest-coverage-commentator@v1.0.2
 
- build-and-push:
+  build-and-push:
     needs: lint
     runs-on: ubuntu-latest
     steps:
